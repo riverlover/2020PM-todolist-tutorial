@@ -5,7 +5,7 @@ import cn.edu.qdu.domain.Todo;
 
 import java.util.Map;
 
-public class TodoDao {
+public class TodoDao implements Dao{
 
     /**
      * 根据ID查询一个正在处理中的待办

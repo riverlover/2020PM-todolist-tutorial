@@ -1,6 +1,8 @@
 package cn.edu.qdu.controller;
 
-import cn.edu.qdu.dao.TodoDao;
+import cn.edu.qdu.dao.Dao;
+import cn.edu.qdu.dao.DaoFactory;
+import cn.edu.qdu.dao.TodoJdbcDao;
 import cn.edu.qdu.domain.Todo;
 
 import javax.servlet.ServletException;
@@ -16,7 +18,7 @@ import java.util.UUID;
 public class AddServlet extends HttpServlet {
     private final static DateFormat df = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 
-    private final TodoDao todoDao = new TodoDao();
+    private Dao dao = DaoFactory.getDao();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,10 +31,10 @@ public class AddServlet extends HttpServlet {
         todo.setTodoItem(todoItem);
         todo.setCreatedAt(df.format(new Date()));
 
-        todoDao.addToOngoing(todo);
+        dao.addToOngoing(todo);
 
-        req.setAttribute("ongoings", todoDao.getAllOngoings());
-        req.setAttribute("completeds", todoDao.getAllCompleteds());
+        req.setAttribute("ongoings", dao.getAllOngoings());
+        req.setAttribute("completeds", dao.getAllCompleteds());
 
         req.getRequestDispatcher("todoList.jsp").forward(req, resp);
     }
